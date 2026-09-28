@@ -2,24 +2,24 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ principal ]
 
 jobs:
-  build:
+  construire:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Build with Buildozer
-        uses: kivy/buildozer-action@v1
+        uses: ArtemSBulgakov/buildozer-action@v1
         id: buildozer
         with:
-          filename: buildozer.spec
           command: buildozer -v android debug
+          buildozer_version: stable
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: package
-          path: ${{ steps.buildozer.outputs.filename }}
+          name: package-apk
+          path: bin/*.apk
